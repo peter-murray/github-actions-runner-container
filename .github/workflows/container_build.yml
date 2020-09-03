@@ -18,8 +18,7 @@ jobs:
         
       - name: Build Container
         run: |
-          docker build centos-actions-runner -t ${CONTAINER_TAG}
-          echo ""
+          docker build centos-actions-runner -t ${CONTAINER_TAG} --build-arg COMMIT_SHA=${{ github.sha }}
       
       - name: Publish
         run: |
