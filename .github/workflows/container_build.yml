@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     env:
-      CONTAINER_TAG: ghcr.io/peter-murray/centos-actions-runner:${GITHUB_SHA}
+      CONTAINER_TAG: ghcr.io/peter-murray/centos-actions-runner:${{ env.GITHUB_SHA }}
 
     steps:
       - name: Checkout
