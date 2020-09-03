@@ -16,7 +16,7 @@ ENV RUNNER_ALLOW_RUNASROOT=false
 ENV AGENT_TOOLS_DIRECTORY=/opt/hostedtoolcache
 
 # Fill in your labels as appropriate here
-LABEL 
+LABEL \
     org.opencontainers.image.created= \
     org.opencontainers.image.authors=Peter Murray \
     org.opencontainers.image.url=https://github.com/peter-murray/github-actions-runner-container \
