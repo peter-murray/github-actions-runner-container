@@ -16,9 +16,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         
+      - name: Get creation time
+        id: time
+        uses: actions/github-script@v2
+        with:
+          script: |
+            core.setOutput('datetime', new Date().toISOString());
+                    
       - name: Build Container
         run: |
-          docker build centos-actions-runner -t ${CONTAINER_TAG} --build-arg COMMIT_SHA=${{ github.sha }}
+          docker build centos-actions-runner -t ${CONTAINER_TAG} --build-arg COMMIT_SHA=${{ github.sha }} --build-arg CREATED="${{ steps.time.outputs.datetime }}"
       
       - name: Publish
         run: |
