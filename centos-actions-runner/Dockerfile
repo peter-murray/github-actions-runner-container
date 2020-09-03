@@ -7,6 +7,7 @@ FROM $BASE
 ARG GH_RUNNER_VERSION=2.273.0
 
 ARG COMMIT_SHA=master
+ARG CREATED=""
 
 ENV RUNNER_NAME=""
 ENV GITHUB_TOKEN=""
@@ -17,18 +18,18 @@ ENV AGENT_TOOLS_DIRECTORY=/opt/hostedtoolcache
 
 # Fill in your labels as appropriate here
 LABEL \
-    org.opencontainers.image.created= \
-    org.opencontainers.image.authors=Peter Murray \
+    org.opencontainers.image.created="$CREATED" \
+    org.opencontainers.image.authors="Peter Murray" \
     org.opencontainers.image.url=https://github.com/peter-murray/github-actions-runner-container \
     org.opencontainers.image.documentation=https://github.com/peter-murray/github-actions-runner-container/README.md \
     org.opencontainers.image.source=https://github.com/peter-murray/github-actions-runner-container \
     org.opencontainers.image.version=$GH_RUNNER_VERSION \
     org.opencontainers.image.revision=$COMMIT_SHA \
-    org.opencontainers.image.vendor=Peter Murray \
+    org.opencontainers.image.vendor="Peter Murray" \
     org.opencontainers.image.licenses=MIT \
     org.opencontainers.image.ref.name=centos-actions-runner \
-    org.opencontainers.image.title=GitHub Actions Runner Container - CentOS \
-    org.opencontainers.image.description=GitHub Actions Runner built into a Container to provide self-hosted runners for Enterprise, Organization or Repositories \
+    org.opencontainers.image.title="GitHub Actions Runner Container - CentOS" \
+    org.opencontainers.image.description="GitHub Actions Runner built into a Container to provide self-hosted runners for Enterprise, Organization or Repositories" \
     github_actions_version=$GH_RUNNER_VERSION
 
 # Create a user for running actions
