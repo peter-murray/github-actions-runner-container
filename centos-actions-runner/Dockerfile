@@ -14,7 +14,7 @@ ENV RUNNER_ALLOW_RUNASROOT=false
 ENV AGENT_TOOLS_DIRECTORY=/opt/hostedtoolcache
 
 # Fill in your labels as appropriate here
-LABEL maintainer="GitHub" \
+LABEL maintainer="Peter Murray" \
     github_actions_version="${GH_RUNNER_VERSION}"
 
 # Create a user for running actions
