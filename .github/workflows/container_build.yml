@@ -1,0 +1,22 @@
+# Build Docker container
+
+name: Container Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    env:
+      CONTAINER_TAG: ghcr.io/peter-murray/centos-actions-runner:${GITHUB_SHA}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Build Container
+        run: |
+          docker build centos-actions-runner -t ${CONTAINER_TAG}
+          
