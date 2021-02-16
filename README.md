@@ -1,5 +1,7 @@
 # Docker Container for GitHub Actions Runner
 
+[![awesome-runners](https://img.shields.io/badge/listed%20on-awesome--runners-blue.svg)](https://github.com/jonico/awesome-runners)
+
 This project will build a Docker container with the specified version of the GitHub Actions Runner installed into it. It is built off of CentOS 8 as a base by default.
 
 ## Building Container
