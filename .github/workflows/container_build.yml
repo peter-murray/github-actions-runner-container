@@ -20,7 +20,7 @@ jobs:
         - ubuntu
 
     env:
-      CONTAINER_TAG: ${CONTAINER_REPO}/${{ matrix.image }}:${{ github.sha }}
+      CONTAINER_TAG: ${{ env.CONTAINER_REPO }}/${{ matrix.image }}:${{ github.sha }}
 
     steps:
       - name: Checkout
