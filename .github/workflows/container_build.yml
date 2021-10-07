@@ -5,12 +5,22 @@ name: Container Build
 on:
   workflow_dispatch:
 
+env:
+  CONTAINER_REPO: ghcr.io/colindembovsky
+  GH_RUNNER_VERSION: 2.283.3
+
 jobs:
   build:
     runs-on: ubuntu-20.04
 
+    strategy:
+      matrix:
+        os:
+        - centos
+        - ubuntu
+
     env:
-      CONTAINER_TAG: ghcr.io/peter-murray/centos-actions-runner:${{ github.sha }}
+      CONTAINER_TAG: ${CONTAINER_REPO}/${{ matrix.image }}:${{ github.sha }}
 
     steps:
       - name: Checkout
@@ -25,9 +35,13 @@ jobs:
                     
       - name: Build Container
         run: |
-          docker build centos-actions-runner -t ${CONTAINER_TAG} --build-arg COMMIT_SHA=${{ github.sha }} --build-arg CREATED="${{ steps.time.outputs.datetime }}"
+          docker build -f ${{ matrix.os }}-actions-runner/Dockerfile -t ${CONTAINER_TAG} \
+            --build-arg COMMIT_SHA=${{ github.sha }} \
+            --build-arg CREATED="${{ steps.time.outputs.datetime }}" \
+            --build-arg GH_RUNNER_VERSION="${GH_RUNNER_VERSION}" \
+            .
       
       - name: Publish
         run: |
-          echo ${{ secrets.CONTAINER_REGISTRY_PAT }} | docker login ghcr.io -u ${GITHUB_ACTOR} --password-stdin
+          echo ${{ GITHUB_TOKEN }} | docker login ghcr.io -u ${GITHUB_ACTOR} --password-stdin
           docker push ${CONTAINER_TAG}
