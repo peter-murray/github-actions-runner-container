@@ -20,7 +20,7 @@ jobs:
         - ubuntu
 
     env:
-      CONTAINER_TAG: ${{ env.CONTAINER_REPO }}/${{ matrix.image }}:${{ github.sha }}
+      CONTAINER_TAG: ${{ matrix.image }}:${{ github.sha }}
 
     steps:
       - name: Checkout
@@ -35,7 +35,7 @@ jobs:
                     
       - name: Build Container
         run: |
-          docker build -f ${{ matrix.os }}-actions-runner/Dockerfile -t ${CONTAINER_TAG} \
+          docker build -f ${{ matrix.os }}-actions-runner/Dockerfile -t ${CONTAINER_REPO}/${CONTAINER_TAG} \
             --build-arg COMMIT_SHA=${{ github.sha }} \
             --build-arg CREATED="${{ steps.time.outputs.datetime }}" \
             --build-arg GH_RUNNER_VERSION="${GH_RUNNER_VERSION}" \
@@ -44,4 +44,4 @@ jobs:
       - name: Publish
         run: |
           echo ${{ env.GITHUB_TOKEN }} | docker login ghcr.io -u ${GITHUB_ACTOR} --password-stdin
-          docker push ${CONTAINER_TAG}
+          docker push ${CONTAINER_REPO}/${CONTAINER_TAG}
