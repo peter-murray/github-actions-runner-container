@@ -4,11 +4,16 @@ name: Container Build
 
 on:
   workflow_dispatch:
+    inputs:
+      runner_version:
+        description: 'Runner version'
+        required: true
+        default: '2.283.3'
 
 env:
   CONTAINER_REPO: ghcr.io/colindembovsky
   #GH_RUNNER_VERSION: 2.283.3
-  GH_RUNNER_VERSION: 2.279.0
+  #GH_RUNNER_VERSION: 2.279.0
 
 jobs:
   build:
@@ -39,7 +44,7 @@ jobs:
           docker build -f ${{ matrix.os }}-actions-runner/Dockerfile -t ${CONTAINER_REPO}/${CONTAINER_TAG} \
             --build-arg COMMIT_SHA=${{ github.sha }} \
             --build-arg CREATED="${{ steps.time.outputs.datetime }}" \
-            --build-arg GH_RUNNER_VERSION="${GH_RUNNER_VERSION}" \
+            --build-arg GH_RUNNER_VERSION="${{ github.events.inputs.runner_version }}" \
             .
       
       - name: Publish
