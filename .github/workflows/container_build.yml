@@ -7,7 +7,8 @@ on:
 
 env:
   CONTAINER_REPO: ghcr.io/colindembovsky
-  GH_RUNNER_VERSION: 2.283.3
+  #GH_RUNNER_VERSION: 2.283.3
+  GH_RUNNER_VERSION: 2.279.0
 
 jobs:
   build:
