@@ -44,7 +44,7 @@ jobs:
           docker build -f ${{ matrix.os }}-actions-runner/Dockerfile -t ${CONTAINER_REPO}/${CONTAINER_TAG} \
             --build-arg COMMIT_SHA=${{ github.sha }} \
             --build-arg CREATED="${{ steps.time.outputs.datetime }}" \
-            --build-arg GH_RUNNER_VERSION="${{ github.events.input.runner_version }}" \
+            --build-arg GH_RUNNER_VERSION="${{ github.event.inputs.runner_version }}" \
             .
       
       - name: Publish
