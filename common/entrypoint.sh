@@ -25,6 +25,7 @@ function getRegistrationToken {
             URL_PATH="$(echo "${RUNNER_URL}" | grep / | cut -d/ -f4-)"
         fi
         TOKEN_URL="${API_BASE}/${SCOPE}/${URL_PATH}/actions/runners/registration-token"
+        echo "Getting tmp registration token from ${TOKEN_URL}"
         TOKEN="$(curl -X POST -fsSL -H "Authorization: token ${GITHUB_TOKEN}" ${TOKEN_URL} | jq -r .token)"
     fi
 }
