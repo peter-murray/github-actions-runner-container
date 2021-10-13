@@ -26,7 +26,6 @@ jobs:
         - ubuntu
 
     env:
-      CONTAINER_TAG: ${{ matrix.os }}-actions-runner:${{ github.sha }}
 
     steps:
       - name: Checkout
@@ -38,16 +37,28 @@ jobs:
         with:
           script: |
             core.setOutput('datetime', new Date().toISOString());
-                    
+                    - name: Container Metadata
+                       id: container_metadata
+                       uses: actions/github-script@v4
+                       with:
+                         script: |
+                           core.setOutput('container_tag', `${context.repo.owner}/${{ matrix.os }}-actions-runner:${context.sha}`);
+                           core.setOutput('datetime', new Date().toISOString());
       - name: Build Container
         run: |
-          docker build -f ${{ matrix.os }}-actions-runner/Dockerfile -t ${CONTAINER_REPO}/${CONTAINER_TAG} \
+          docker build -f ${{ matrix.os }}-actions-runner/Dockerfile -t ghcr.io/${{ steps.container_metadata.outputs.container_tag }} \
             --build-arg COMMIT_SHA=${{ github.sha }} \
-            --build-arg CREATED="${{ steps.time.outputs.datetime }}" \
+            --build-arg CREATED="${{ steps.container_metadata.outputs.datetime }}" \
             --build-arg GH_RUNNER_VERSION="${{ github.event.inputs.runner_version }}" \
             .
       
+      - name: Login GHCR.io
+        uses: docker/login@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: Publish
-        run: |
-          echo ${{ secrets.CONTAINER_REGISTRY_PAT }} | docker login ghcr.io -u ${GITHUB_ACTOR} --password-stdin
-          docker push ${CONTAINER_REPO}/${CONTAINER_TAG}
+        run: | 
+          docker push ghcr.io/${{ steps.container_metadata.outputs.container_tag }}
