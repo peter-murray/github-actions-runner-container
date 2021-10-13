@@ -10,11 +10,6 @@ on:
         required: true
         default: '2.283.3'
 
-env:
-  CONTAINER_REPO: ghcr.io/colindembovsky
-  #GH_RUNNER_VERSION: 2.283.3
-  #GH_RUNNER_VERSION: 2.279.0
-
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -24,8 +19,6 @@ jobs:
         os:
         - centos
         - ubuntu
-
-    env:
 
     steps:
       - name: Checkout
