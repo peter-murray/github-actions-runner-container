@@ -31,7 +31,7 @@ jobs:
           script: |
             core.setOutput('container_tag', `${context.repo.owner}/${{ matrix.os }}-actions-runner:${context.sha}`);
             core.setOutput('datetime', new Date().toISOString());
-             
+      
       - name: Build Container
         run: |
           docker build -f ${{ matrix.os }}-actions-runner/Dockerfile -t ghcr.io/${{ steps.container_metadata.outputs.container_tag }} \
@@ -46,7 +46,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.CONTAINER_REGISTRY_PAT }}
           
       - name: Publish
         run: | 
