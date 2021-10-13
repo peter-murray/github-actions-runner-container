@@ -24,7 +24,7 @@ function getRegistrationToken {
             # Get the path to the organization or repository
             URL_PATH="$(echo "${RUNNER_URL}" | grep / | cut -d/ -f4-)"
         fi
-        TOKEN_URL="https://api.github.com/${SCOPE}/${URL_PATH}/actions/runners/registration-token"
+        TOKEN_URL="${API_BASE}/${SCOPE}/${URL_PATH}/actions/runners/registration-token"
         TOKEN="$(curl -X POST -fsSL -H "Authorization: token ${GITHUB_TOKEN}" ${TOKEN_URL} | jq -r .token)"
     fi
 }
@@ -32,6 +32,13 @@ function getRegistrationToken {
 RUNNER_OPTIONS=""
 SCOPE=""
 TOKEN=""
+
+if [[ -z $GITHUB_SERVER ]]; then
+    export API_BASE=https://api.github.com
+else
+    export API_BASE="${GITHUB_SERVER}/api/v3"
+fi
+echo "Using ${API_BASE} as Base URL"
 
 if [[ -z $RUNNER_NAME ]]; then
     echo "Using hostname for Actions Runner Name."
