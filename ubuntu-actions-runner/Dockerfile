@@ -1,4 +1,4 @@
-ARG BASE=centos:8
+ARG BASE=ubuntu:20.04
 FROM $BASE
 
 # You would typically obtain this latest version from an API endpoint and use that for the runner version
@@ -29,7 +29,7 @@ LABEL \
     org.opencontainers.image.vendor="Peter Murray" \
     org.opencontainers.image.licenses=MIT \
     org.opencontainers.image.ref.name=centos-actions-runner \
-    org.opencontainers.image.title="GitHub Actions Runner Container - CentOS" \
+    org.opencontainers.image.title="GitHub Actions Runner Container - Ubuntu" \
     org.opencontainers.image.description="GitHub Actions Runner built into a Container to provide self-hosted runners for Enterprise, Organization or Repositories" \
     github_actions_version=$GH_RUNNER_VERSION
 
@@ -39,12 +39,13 @@ RUN mkdir -p /home/actions ${AGENT_TOOLS_DIRECTORY}
 WORKDIR /home/actions
 
 # jq is used by the runner to extract the token when registering the runner
-RUN curl -L -O https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
+RUN apt-get update \
+    && apt-get install curl jq git -y \
+    && curl -L -O https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
     && tar -zxf actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
     && rm -f actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
     && ./bin/installdependencies.sh \
-    && yum install jq git -y \
-    && yum clean all
+    && apt-get clean
 
 # Copy out the runsvc.sh script to the root directory for running the service
 RUN cp bin/runsvc.sh . && chmod +x ./runsvc.sh

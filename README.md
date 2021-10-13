@@ -8,7 +8,7 @@ This project will build a Docker container with the specified version of the Git
 You can build this container using the following command:
 
 ```bash
-$ docker build centos-actions-runner -t <container_tag>
+$ docker build -f [centos-actions-runner|ubuntu-actions-runner]/Dockerfile -t <container_tag> .
 ```
 
 There are some configurable Build Arguments that you can pass in to modify the container build:
@@ -45,6 +45,7 @@ The token needs to be provided as the environment variable `GITHUB_TOKEN`.
 
 Optional environment variables:
 
+* `GITHUB_SERVER`: The url for GHES server (if not connecting to `github.com`)
 * `RUNNER_NAME`: The name for the runner, must be unique if not specified will use the hostname of the container.
 * `RUNNER_LABELS`: A comma separated list of labels to associate with the runner over the default values. e.g. `tester,container-runner,production`
 * `RUNNER_GROUP`: A runner group to associate the runner with in the organization or enterprise. If not specified will use the `default` group.
