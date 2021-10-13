@@ -13,7 +13,7 @@ $ docker build -f [centos-actions-runner|ubuntu-actions-runner]/Dockerfile -t <c
 
 There are some configurable Build Arguments that you can pass in to modify the container build:
 
-* `BASE`: default value `centos:8` but can be modified to specify an alternative base container image to start from
+* `BASE`: default value `centos:8` or `ubuntu-20.04` depending on the variant, but can be modified to specify an alternative base container image to start from
 * `GH_RUNNER_VERSION`: default value '2.273.0' but can be used to specify an alternative version of the GitHub Actions runner
 
 The Dockerfile has two lines that are hardcoded to use `yum` so you will have to ensure that you use a base container that supports yum if you change it.
