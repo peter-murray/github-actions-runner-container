@@ -42,7 +42,7 @@ jobs:
         shell: bash
       
       - name: Login GHCR.io
-        uses: docker/login@v1
+        uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
