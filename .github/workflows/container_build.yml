@@ -10,11 +10,6 @@ on:
         required: true
         default: '2.283.3'
 
-env:
-  CONTAINER_REPO: ghcr.io/colindembovsky
-  #GH_RUNNER_VERSION: 2.283.3
-  #GH_RUNNER_VERSION: 2.279.0
-
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -25,25 +20,18 @@ jobs:
         - centos
         - ubuntu
 
-    env:
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         
-      - name: Get creation time
-        id: time
-        uses: actions/github-script@v2
+      - name: Container Metadata
+        id: container_metadata
+        uses: actions/github-script@v4
         with:
           script: |
+            core.setOutput('container_tag', `${context.repo.owner}/${{ matrix.os }}-actions-runner:${context.sha}`);
             core.setOutput('datetime', new Date().toISOString());
-                    - name: Container Metadata
-                       id: container_metadata
-                       uses: actions/github-script@v4
-                       with:
-                         script: |
-                           core.setOutput('container_tag', `${context.repo.owner}/${{ matrix.os }}-actions-runner:${context.sha}`);
-                           core.setOutput('datetime', new Date().toISOString());
+             
       - name: Build Container
         run: |
           docker build -f ${{ matrix.os }}-actions-runner/Dockerfile -t ghcr.io/${{ steps.container_metadata.outputs.container_tag }} \
@@ -51,6 +39,7 @@ jobs:
             --build-arg CREATED="${{ steps.container_metadata.outputs.datetime }}" \
             --build-arg GH_RUNNER_VERSION="${{ github.event.inputs.runner_version }}" \
             .
+        shell: bash
       
       - name: Login GHCR.io
         uses: docker/login@v1
