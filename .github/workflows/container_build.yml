@@ -30,13 +30,15 @@ jobs:
         with:
           script: |
             core.setOutput('datetime', new Date().toISOString());
-                    - name: Container Metadata
-                       id: container_metadata
-                       uses: actions/github-script@v4
-                       with:
-                         script: |
-                           core.setOutput('container_tag', `${context.repo.owner}/${{ matrix.os }}-actions-runner:${context.sha}`);
-                           core.setOutput('datetime', new Date().toISOString());
+                    
+      - name: Container Metadata
+        id: container_metadata
+        uses: actions/github-script@v4
+        with:
+          script: |
+            core.setOutput('container_tag', `${context.repo.owner}/${{ matrix.os }}-actions-runner:${context.sha}`);
+            core.setOutput('datetime', new Date().toISOString());
+      
       - name: Build Container
         run: |
           docker build -f ${{ matrix.os }}-actions-runner/Dockerfile -t ghcr.io/${{ steps.container_metadata.outputs.container_tag }} \
