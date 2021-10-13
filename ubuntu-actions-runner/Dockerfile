@@ -17,8 +17,6 @@ ENV RUNNER_WORK_DIRECTORY="_work"
 ENV RUNNER_ALLOW_RUNASROOT=false
 ENV AGENT_TOOLS_DIRECTORY=/opt/hostedtoolcache
 
-ENV DEBIAN_FRONTEND=noninteractive
-
 # Fill in your labels as appropriate here
 LABEL \
     org.opencontainers.image.created="$CREATED" \
@@ -41,7 +39,8 @@ RUN mkdir -p /home/actions ${AGENT_TOOLS_DIRECTORY}
 WORKDIR /home/actions
 
 # jq is used by the runner to extract the token when registering the runner
-RUN apt-get update \
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update \
     && apt-get install curl jq -y \
     && apt-get install --assume-yes git \
     && curl -L -O https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
