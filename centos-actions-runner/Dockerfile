@@ -43,7 +43,7 @@ RUN curl -L -O https://github.com/actions/runner/releases/download/v${GH_RUNNER_
     && tar -zxf actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
     && rm -f actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
     && ./bin/installdependencies.sh \
-    && yum install jq -y \
+    && yum install jq git -y \
     && yum clean all
 
 # Copy out the runsvc.sh script to the root directory for running the service
