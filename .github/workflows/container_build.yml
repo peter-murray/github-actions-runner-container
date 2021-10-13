@@ -24,13 +24,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         
-      - name: Get creation time
-        id: time
-        uses: actions/github-script@v2
-        with:
-          script: |
-            core.setOutput('datetime', new Date().toISOString());
-                    
       - name: Container Metadata
         id: container_metadata
         uses: actions/github-script@v4
@@ -46,6 +39,7 @@ jobs:
             --build-arg CREATED="${{ steps.container_metadata.outputs.datetime }}" \
             --build-arg GH_RUNNER_VERSION="${{ github.event.inputs.runner_version }}" \
             .
+        shell: bash
       
       - name: Login GHCR.io
         uses: docker/login-action@v1
