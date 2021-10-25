@@ -30,7 +30,7 @@ function getRegistrationToken {
     fi
 }
 
-RUNNER_OPTIONS=""
+FINAL_RUNNER_OPTIONS="${RUNNER_OPTIONS}"
 SCOPE=""
 TOKEN=""
 
@@ -66,7 +66,7 @@ fi
 
 # If the user has provided any runner labels add them to the config options
 if [[ -n ${RUNNER_LABELS} ]]; then
-    RUNNER_OPTIONS="${RUNNER_OPTIONS} --labels ${RUNNER_LABELS}"
+    FINAL_RUNNER_OPTIONS="${FINAL_RUNNER_OPTIONS} --labels ${RUNNER_LABELS}"
 fi
 
 # The runner group that the self-hosted runner will be registered with
@@ -83,7 +83,7 @@ echo "Configuring GitHub Actions Runner and registering"
     --name "${RUNNER_NAME}" \
     --work ${RUNNER_WORK_DIRECTORY} \
     --runnergroup ${GROUP} \
-    $RUNNER_OPTIONS
+    $FINAL_RUNNER_OPTIONS
 
 echo "Starting GitHub Actions Runner"
 env -i ./runsvc.sh
