@@ -62,7 +62,7 @@ elif [[ -n ${RUNNER_REPOSITORY_URL} ]]; then
     SCOPE=repos
 fi
 
-OPTIONS="${RUNNER_OPTIONS:-"default"}"
+OPTIONS="${RUNNER_OPTIONS:-""}"
 # If the user has provided any runner labels add them to the config options
 if [[ -n ${RUNNER_LABELS} ]]; then
     OPTIONS="${OPTIONS} --labels ${RUNNER_LABELS}"
