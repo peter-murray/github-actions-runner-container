@@ -39,13 +39,15 @@ RUN mkdir -p /home/actions ${AGENT_TOOLS_DIRECTORY}
 WORKDIR /home/actions
 
 # jq is used by the runner to extract the token when registering the runner
-RUN export DEBIAN_FRONTEND=noninteractive && apt-get update \
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update \
     && apt-get install curl jq git -y \
     && curl -L -O https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
     && tar -zxf actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
     && rm -f actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
     && ./bin/installdependencies.sh \
-    && apt-get clean
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy out the runsvc.sh script to the root directory for running the service
 RUN cp bin/runsvc.sh . && chmod +x ./runsvc.sh
