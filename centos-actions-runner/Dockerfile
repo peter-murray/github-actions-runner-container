@@ -1,10 +1,13 @@
+#
+# Centos is no longer a viable operating system, leaving here as a reference, but redhat-ubi8 image is a better replacement.
+#
 ARG BASE=centos:8
 FROM $BASE
 
 # You would typically obtain this latest version from an API endpoint and use that for the runner version
 # as the runner will self update to the latest version when it gets its first job.
 # The reason this is specified is so that we can test the upgrade scenarios using this Dockerfile.
-ARG GH_RUNNER_VERSION=2.283.3
+ARG GH_RUNNER_VERSION=2.286.1
 
 ARG COMMIT_SHA=master
 ARG CREATED=""
@@ -13,6 +16,7 @@ ENV RUNNER_NAME=""
 ENV GITHUB_SERVER=""
 ENV GITHUB_TOKEN=""
 ENV RUNNER_LABELS=""
+ENV RUNNER_OPTIONS=""
 ENV RUNNER_WORK_DIRECTORY="_work"
 ENV RUNNER_ALLOW_RUNASROOT=false
 ENV AGENT_TOOLS_DIRECTORY=/opt/hostedtoolcache

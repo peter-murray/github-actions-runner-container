@@ -8,7 +8,7 @@ on:
       runner_version:
         description: 'Runner version'
         required: true
-        default: '2.283.3'
+        default: '2.287.1'
 
 jobs:
   build:
@@ -17,8 +17,9 @@ jobs:
     strategy:
       matrix:
         os:
-        - centos
         - ubuntu
+        - debian
+        - redhat-ubi8
 
     steps:
       - name: Checkout

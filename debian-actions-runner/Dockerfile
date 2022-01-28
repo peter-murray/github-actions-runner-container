@@ -1,5 +1,5 @@
-ARG VERSION=20.04
-FROM ubuntu:$VERSION
+ARG VERSION=stretch-slim
+FROM debian:$VERSION
 
 # You would typically obtain this latest version from an API endpoint and use that for the runner version
 # as the runner will self update to the latest version when it gets its first job.
