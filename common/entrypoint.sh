@@ -81,8 +81,8 @@ echo "Configuring GitHub Actions Runner and registering"
     --url "${RUNNER_URL}" \
     --token "${TOKEN}" \
     --name "${RUNNER_NAME}" \
-    --work ${RUNNER_WORK_DIRECTORY} \
-    --runnergroup ${GROUP} \
+    --work "${RUNNER_WORK_DIRECTORY}" \
+    --runnergroup "${GROUP}" \
     $OPTIONS
 
 echo "Starting GitHub Actions Runner"
